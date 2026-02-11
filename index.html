@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA — Parallel Computing Changed the World</title>
+    <meta name="description"
+        content="How NVIDIA industrialized parallelism and redefined computing. A documentary-style interactive experience.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Mobile Warning -->
+    <div id="mobile-warning">
+        <div class="mobile-warning-content">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#76B900" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            <h2>This experience is designed for laptop screens</h2>
+            <p>Please open on a device with 1440px+ width for the full cinematic experience.</p>
+        </div>
+    </div>
+
+    <!-- Particle Canvas (Background — subtle) -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Section Progress Nav -->
+    <nav id="section-nav">
+        <div class="nav-dot" data-section="0"><span class="nav-label">Intro</span></div>
+        <div class="nav-dot" data-section="1"><span class="nav-label">Limitation</span></div>
+        <div class="nav-dot" data-section="2"><span class="nav-label">CPU vs GPU</span></div>
+        <div class="nav-dot" data-section="3"><span class="nav-label">GPU</span></div>
+        <div class="nav-dot" data-section="4"><span class="nav-label">Evolution</span></div>
+        <div class="nav-dot" data-section="5"><span class="nav-label">Sphere</span></div>
+        <div class="nav-dot" data-section="6"><span class="nav-label">CPU + GPU</span></div>
+        <div class="nav-dot" data-section="7"><span class="nav-label">AI Factories</span></div>
+        <div class="nav-dot" data-section="8"><span class="nav-label">Omniverse</span></div>
+        <div class="nav-dot" data-section="9"><span class="nav-label">Vision</span></div>
+        <div class="nav-dot" data-section="10"><span class="nav-label">Finale</span></div>
+    </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <svg viewBox="0 0 120 120" width="80" height="80">
+                    <path d="M60 10 L110 95 L10 95 Z" fill="none" stroke="#76B900" stroke-width="2"
+                        class="loader-triangle" />
+                </svg>
+            </div>
+            <div class="loader-bar-track">
+                <div class="loader-bar-fill" id="loader-bar"></div>
+            </div>
+            <p class="loader-text" id="loader-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 0: INTRODUCTION ==================== -->
+    <section id="section-intro" class="section" data-section-index="0">
+        <div class="section-inner">
+            <div class="intro-content">
+                <!-- Big NVIDIA Brand Title -->
+                <div class="brand-block" data-speed="0.15">
+                    <h1 class="brand-name">NVIDIA</h1>
+                    <p class="brand-tagline">The Company That Industrialized Parallelism</p>
+                </div>
+
+                <h2 class="intro-title" data-speed="0.2">
+                    <span class="intro-line">Parallel Computing</span>
+                    <span class="intro-line accent">Changed the World.</span>
+                </h2>
+
+                <div class="agenda-list" data-speed="0.4">
+                    <div class="agenda-item" data-goto="1">
+                        <span class="agenda-num">01</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">The Limitation</span>
+                            <span class="agenda-desc">Why sequential computing hit a wall</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="3">
+                        <span class="agenda-num">02</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">The GPU Revolution</span>
+                            <span class="agenda-desc">One core vs thousands — the CUDA breakthrough</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="4">
+                        <span class="agenda-num">03</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">From Gaming to Infrastructure</span>
+                            <span class="agenda-desc">How GPUs evolved from pixels to data centers</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="5">
+                        <span class="agenda-num">04</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">The Sphere</span>
+                            <span class="agenda-desc">Parallel rendering at planetary scale</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="6">
+                        <span class="agenda-num">05</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">CPU + GPU Cooperation</span>
+                            <span class="agenda-desc">Heterogeneous computing and the future</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="7">
+                        <span class="agenda-num">06</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">AI Factories &amp; Omniverse</span>
+                            <span class="agenda-desc">DGX systems and digital twin simulation</span>
+                        </div>
+                    </div>
+                    <div class="agenda-item" data-goto="9">
+                        <span class="agenda-num">07</span>
+                        <div class="agenda-details">
+                            <span class="agenda-text">Vision &amp; Leadership</span>
+                            <span class="agenda-desc">Jensen Huang's long-term strategic bets</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-hint" data-speed="0.5">
+                    <span class="hint-text">Scroll to Begin</span>
+                    <div class="hint-arrow">↓</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 1: THE LIMITATION ==================== -->
+    <section id="section-limitation" class="section" data-section-index="1">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">Computers Could Calculate.<br><span class="accent">But They Couldn't
+                        See.</span></h2>
+            </div>
+
+            <div class="split-layout">
+                <div class="split-left" data-speed="0.3">
+                    <div class="compute-demo" id="serial-demo">
+                        <h3 class="compute-label">Sequential Processing</h3>
+                        <p class="compute-desc">A CPU executes one task at a time. Each instruction waits for the
+                            previous one to finish.</p>
+                        <div class="serial-pipeline" id="serial-pipeline">
+                            <!-- Single-core tasks animated by JS -->
+                        </div>
+                        <div class="compute-meta">
+                            <span class="meta-chip">1 Core</span>
+                            <span class="meta-chip">High Clock Speed</span>
+                            <span class="meta-chip">Serial Execution</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-divider">
+                    <div class="divider-line"></div>
+                    <span class="divider-label">vs</span>
+                    <div class="divider-line"></div>
+                </div>
+                <div class="split-right" data-speed="0.3">
+                    <div class="compute-demo" id="parallel-demo">
+                        <h3 class="compute-label accent">Parallel Processing</h3>
+                        <p class="compute-desc">A GPU runs thousands of tasks simultaneously. Each pixel, each
+                            calculation — processed at once.</p>
+                        <div class="parallel-grid" id="parallel-grid">
+                            <!-- Hundreds of nodes animated by JS -->
+                        </div>
+                        <div class="compute-meta">
+                            <span class="meta-chip accent-chip">Thousands of Cores</span>
+                            <span class="meta-chip accent-chip">Massive Throughput</span>
+                            <span class="meta-chip accent-chip">Parallel Execution</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-conclusion" data-speed="0.5">
+                <p class="conclusion-text">Graphics require millions of simultaneous calculations. Traditional serial
+                    computing was the bottleneck.</p>
+                <p class="conclusion-highlight">NVIDIA industrialized parallelism.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 2: CPU vs GPU ==================== -->
+    <section id="section-cpu-gpu" class="section" data-section-index="2">
+        <div class="section-inner">
+            <div class="section-header centered">
+                <span class="section-number">02</span>
+                <h2 class="section-title">The Right Tool<br><span class="accent">For The Job.</span></h2>
+                <p class="section-subtitle">Understanding the fundamental difference between latency and throughput.</p>
+            </div>
+
+            <div class="cpu-gpu-comparison">
+                <!-- CPU CARD -->
+                <div class="comparison-card cpu-card" data-speed="0.2">
+                    <div class="card-icon">🧠</div>
+                    <h3 class="card-title">The CPU</h3>
+                    <p class="card-role">"The Maestro"</p>
+                    <ul class="card-specs">
+                        <li>Few, powerful cores</li>
+                        <li>Complex logic & branching</li>
+                        <li>Optimized for <strong>Serial Processing</strong></li>
+                        <li>Low Latency (Fast single task)</li>
+                    </ul>
+                    <div class="card-use-case">
+                        <span>Best for:</span> OS, General Apps, Logic
+                    </div>
+                </div>
+
+                <!-- GPU CARD -->
+                <div class="comparison-card gpu-card" data-speed="0.3">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">The GPU</h3>
+                    <p class="card-role">"The Orchestra"</p>
+                    <ul class="card-specs">
+                        <li>Thousands of efficient cores</li>
+                        <li>Massive parallelism</li>
+                        <li>Optimized for <strong>Throughput</strong></li>
+                        <li>High Bandwidth (Many tasks at once)</li>
+                    </ul>
+                    <div class="card-use-case">
+                        <span>Best for:</span> Graphics, AI, Simulation
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategy Explanation -->
+            <div class="strategy-box-container" data-speed="0.4">
+                <div class="explanation-box">
+                    <h4 class="box-title">Why doesn't NVIDIA build consumer CPUs?</h4>
+                    <p class="box-text">
+                        The consumer x86 CPU market (Intel/AMD) is mature and saturated. NVIDIA focuses purely on
+                        <strong>Accelerated Computing</strong> — solving problems that normal computers can't.
+                    </p>
+                    <p class="box-text">
+                        However, NVIDIA <strong>does</strong> build CPUs for the data center. The <strong>Grace
+                            Superchip</strong>
+                        is an ARM-based CPU designed specifically to feed the GPU with data faster than any x86 chip
+                        could.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 3: THE GPU REVOLUTION ==================== -->
+    <section id="section-gpu" class="section" data-section-index="3">
+        <div class="section-inner">
+            <div class="content-with-3d">
+                <div class="content-side" data-speed="0.4">
+                    <span class="section-number">02</span>
+                    <h2 class="section-title">One Core<br><span class="accent">vs Thousands.</span></h2>
+                    <p class="section-body">A CPU is designed for complex logic — a few powerful cores handling
+                        intricate tasks. A GPU is designed for throughput — thousands of smaller cores executing simple
+                        operations in parallel.</p>
+                    <p class="section-body">This architectural difference made GPUs ideal not just for graphics, but for
+                        any problem that requires massive parallel math.</p>
+                    <div class="info-block">
+                        <div class="info-label">CUDA</div>
+                        <p class="info-text">In 2006, NVIDIA released CUDA — a programming platform that allowed
+                            developers to use GPUs for general-purpose computing. This turned every NVIDIA GPU into a
+                            programmable parallel processor.</p>
+                    </div>
+                </div>
+                <div class="visual-side" data-speed="0.2">
+                    <canvas id="gpu-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 4: FROM GAMING TO INFRASTRUCTURE ==================== -->
+    <section id="section-evolution" class="section" data-section-index="4">
+        <div class="section-inner">
+            <div class="section-header centered">
+                <span class="section-number">03</span>
+                <h2 class="section-title">From Pixels<br><span class="accent">to Planet-Scale Compute.</span></h2>
+                <p class="section-subtitle">GPUs evolved from rendering games to powering the world's most complex
+                    computations.</p>
+            </div>
+
+            <div class="timeline-container" data-speed="0.3">
+                <div class="timeline-track">
+                    <div class="timeline-line" id="timeline-line"></div>
+                </div>
+                <div class="timeline-items">
+                    <div class="tl-item" data-year="1999">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <span class="tl-year">1999</span>
+                            <h3 class="tl-title">Gaming</h3>
+                            <p class="tl-desc">The GeForce 256 — the world's first "GPU." Real-time 3D graphics for
+                                consumers.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item" data-year="2006">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <span class="tl-year">2006</span>
+                            <h3 class="tl-title">CUDA</h3>
+                            <p class="tl-desc">GPUs become programmable general-purpose processors. Scientific computing
+                                accelerates.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item" data-year="2012">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <span class="tl-year">2012</span>
+                            <h3 class="tl-title">Deep Learning</h3>
+                            <p class="tl-desc">AlexNet runs on NVIDIA GPUs. The deep learning revolution begins.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item" data-year="2020">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <span class="tl-year">2020</span>
+                            <h3 class="tl-title">Data Centers</h3>
+                            <p class="tl-desc">DGX systems power AI training at scale. GPUs become infrastructure.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item" data-year="2024">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <span class="tl-year">2024</span>
+                            <h3 class="tl-title">AI Factories</h3>
+                            <p class="tl-desc">Blackwell architecture. Trillion-parameter models. GPUs are the engine of
+                                AI.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 5: THE SPHERE ==================== -->
+    <section id="section-sphere" class="section section-sphere-bg" data-section-index="5">
+        <div class="section-inner">
+            <div class="sphere-layout">
+                <div class="sphere-image-container" data-speed="0.15">
+                    <img src="https://i.makeagif.com/media/3-19-2025/FZL2-T.gif" alt="Las Vegas Sphere - Emoji Face"
+                        class="sphere-photo" loading="lazy"
+                        onerror="this.style.display='none'; document.getElementById('sphere-fallback').style.display='block';">
+                    <div id="sphere-fallback" class="sphere-fallback" style="display:none;">
+                        <canvas id="sphere-canvas"></canvas>
+                    </div>
+                    <div class="sphere-grid-overlay"></div>
+                </div>
+                <div class="sphere-info" data-speed="0.4">
+                    <span class="section-number">04</span>
+                    <h2 class="section-title">A Monument to<br><span class="accent">Parallel Rendering.</span></h2>
+                    <p class="section-body">The Las Vegas Sphere is the world's largest LED display — a 580,000 sq ft
+                        interior screen running at up to 16K resolution. Its visuals are powered by clusters of NVIDIA
+                        RTX-class GPUs working in perfect synchronization.</p>
+
+                    <div class="sphere-specs">
+                        <div class="spec-item">
+                            <span class="spec-value">16K × 16K</span>
+                            <span class="spec-label">Interior Resolution</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-value">60 FPS</span>
+                            <span class="spec-label">Frame Rate</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-value">~150</span>
+                            <span class="spec-label">RTX-class GPUs</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-value">1.6M+</span>
+                            <span class="spec-label">CUDA Cores</span>
+                        </div>
+                    </div>
+
+                    <p class="section-body muted">Synchronization software like NVIDIA Rivermax ensures frame-perfect
+                        output across the entire display surface.</p>
+
+                    <blockquote class="section-quote">
+                        "It's not about one GPU.<br><span class="accent">It's about synchronization.</span>"
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 6: CPU + GPU COOPERATION ==================== -->
+    <section id="section-cooperation" class="section" data-section-index="6">
+        <div class="section-inner">
+            <div class="content-with-3d reverse">
+                <div class="visual-side" data-speed="0.2">
+                    <canvas id="chip-canvas"></canvas>
+                </div>
+                <div class="content-side" data-speed="0.4">
+                    <span class="section-number">05</span>
+                    <h2 class="section-title">When CPU<br><span class="accent">Meets GPU.</span></h2>
+                    <p class="section-body">CPUs handle logic and orchestration. GPUs handle parallel workloads. Modern
+                        AI and HPC systems require both — a design paradigm called heterogeneous computing.</p>
+                    <p class="section-body">From competition in overlapping markets to strategic collaboration. The most
+                        efficient architectures integrate both CPU and GPU silicon on a unified platform.</p>
+                    <div class="info-block">
+                        <div class="info-label">Heterogeneous Computing</div>
+                        <p class="info-text">The CPU decides what to do. The GPU does it — at massive scale. Together,
+                            they deliver performance that neither could achieve alone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 7: AI FACTORIES ==================== -->
+    <section id="section-data" class="section" data-section-index="7">
+        <div class="section-inner">
+            <div class="content-with-3d">
+                <div class="content-side" data-speed="0.4">
+                    <span class="section-number">06</span>
+                    <h2 class="section-title accent">AI Factories.</h2>
+                    <p class="section-body">DGX systems are NVIDIA's purpose-built AI supercomputers. Each node packs
+                        multiple GPUs delivering petaflops of compute power for training the world's largest AI models.
+                    </p>
+
+                    <div class="use-cases-compact">
+                        <div class="use-case-row">
+                            <span class="use-icon">⚕️</span>
+                            <div>
+                                <h4>Drug Discovery</h4>
+                                <p>Molecular simulation at GPU speed. Years of research compressed into weeks.</p>
+                            </div>
+                        </div>
+                        <div class="use-case-row">
+                            <span class="use-icon">🚗</span>
+                            <div>
+                                <h4>Autonomous Driving</h4>
+                                <p>Training perception models on petabytes of driving data. Real-time inference at the
+                                    edge.</p>
+                            </div>
+                        </div>
+                        <div class="use-case-row">
+                            <span class="use-icon">🧠</span>
+                            <div>
+                                <h4>Large Language Models</h4>
+                                <p>GPT, Gemini, Llama — trained on thousands of GPUs working in parallel.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="section-body muted">Parallelism doesn't just speed up AI training. It makes it possible.
+                    </p>
+                </div>
+                <div class="visual-side" data-speed="0.2">
+                    <canvas id="server-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 8: OMNIVERSE ==================== -->
+    <section id="section-omniverse" class="section" data-section-index="8">
+        <div class="section-inner">
+            <div class="content-with-3d reverse">
+                <div class="visual-side" data-speed="0.2">
+                    <canvas id="omniverse-canvas"></canvas>
+                </div>
+                <div class="content-side" data-speed="0.4">
+                    <span class="section-number">07</span>
+                    <h2 class="section-title">Simulate<br><span class="accent">Before You Build.</span></h2>
+                    <p class="section-body">NVIDIA Omniverse is a platform for building and operating digital twins —
+                        physically accurate virtual worlds that mirror real-world systems.</p>
+
+                    <div class="use-cases-compact">
+                        <div class="use-case-row">
+                            <span class="use-icon">🏭</span>
+                            <div>
+                                <h4>BMW Factory</h4>
+                                <p>An entire production line simulated in a digital twin. Every robot, every conveyor
+                                    belt — optimized before a single bolt is turned.</p>
+                            </div>
+                        </div>
+                        <div class="use-case-row">
+                            <span class="use-icon">🤖</span>
+                            <div>
+                                <h4>Robotics Testing</h4>
+                                <p>Train and validate robots in simulation millions of times before deploying in the
+                                    real world.</p>
+                            </div>
+                        </div>
+                        <div class="use-case-row">
+                            <span class="use-icon">📐</span>
+                            <div>
+                                <h4>Industrial Optimization</h4>
+                                <p>Warehouse layouts, logistics flows, energy systems — all modeled with physically
+                                    accurate rendering.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 9: JENSEN HUANG ==================== -->
+    <section id="section-jensen" class="section" data-section-index="9">
+        <div class="section-inner">
+            <div class="jensen-layout">
+                <div class="jensen-visual" data-speed="0.3">
+                    <svg viewBox="0 0 200 300" width="180" height="270" class="jacket-svg">
+                        <path
+                            d="M100 20 Q80 20 70 40 L50 120 Q45 140 50 160 L55 200 Q58 240 60 280 L140 280 Q142 240 145 200 L150 160 Q155 140 150 120 L130 40 Q120 20 100 20Z"
+                            fill="none" stroke="#76B900" stroke-width="1" class="jacket-outline" opacity="0.6" />
+                        <path d="M70 40 Q85 60 100 50 Q115 60 130 40" fill="none" stroke="#76B900" stroke-width="1"
+                            opacity="0.6" />
+                        <line x1="100" y1="50" x2="100" y2="280" stroke="#76B900" stroke-width="0.5"
+                            stroke-dasharray="4 4" opacity="0.3" />
+                    </svg>
+                </div>
+                <div class="jensen-content" data-speed="0.5">
+                    <span class="section-number">08</span>
+                    <h2 class="section-title">Vision <span class="accent">Scales.</span></h2>
+                    <p class="section-body">Jensen Huang co-founded NVIDIA in 1993 at a Denny's restaurant with $600.
+                        What followed wasn't luck — it was a series of deliberate, long-term bets on parallel computing.
+                    </p>
+
+                    <div class="strategy-points">
+                        <div class="strategy-item">
+                            <span class="strategy-marker"></span>
+                            <div>
+                                <h4>The CUDA Bet (2006)</h4>
+                                <p>Invested hundreds of millions to make GPUs programmable — years before the market
+                                    existed for it.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-item">
+                            <span class="strategy-marker"></span>
+                            <div>
+                                <h4>Platform Thinking</h4>
+                                <p>Built not just chips, but an entire ecosystem: hardware, software, libraries, and
+                                    developer tools.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-item">
+                            <span class="strategy-marker"></span>
+                            <div>
+                                <h4>Full-Stack Integration</h4>
+                                <p>From silicon to software to cloud — NVIDIA controls every layer of the AI compute
+                                    stack.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 10: FINALE ==================== -->
+    <section id="section-finale" class="section" data-section-index="10">
+        <div class="section-inner">
+            <div class="finale-content">
+                <h2 class="finale-title" data-speed="0.3">Parallelism Is <span class="accent">Infrastructure.</span>
+                </h2>
+
+                <div class="finale-words" data-speed="0.5">
+                    <span class="finale-word" data-index="0">Cars.</span>
+                    <span class="finale-word" data-index="1">Concerts.</span>
+                    <span class="finale-word" data-index="2">Cinema.</span>
+                    <span class="finale-word" data-index="3">AI.</span>
+                    <span class="finale-word" data-index="4">Medicine.</span>
+                    <span class="finale-word" data-index="5">Robotics.</span>
+                </div>
+
+                <div class="finale-close" data-speed="0.7">
+                    <div class="finale-glow"></div>
+                    <p class="finale-tagline">"Look for the <span class="accent glow-text">green</span>."</p>
+                </div>
+
+                <div class="finale-logo" data-speed="0.8">
+                    <svg viewBox="0 0 300 80" width="300" class="nvidia-final-logo">
+                        <!-- NVIDIA Eye Icon -->
+                        <path class="nvidia-eye-path"
+                            d="M50 40 C50 25 65 15 80 15 C95 15 110 25 110 40 C110 55 95 65 80 65 C65 65 50 55 50 40 Z"
+                            fill="none" stroke="#76B900" stroke-width="2" />
+                        <circle class="nvidia-eye-pupil" cx="80" cy="40" r="8" fill="none" stroke="#76B900"
+                            stroke-width="2" />
+                        <!-- NVIDIA Text -->
+                        <text x="190" y="48" text-anchor="middle" fill="#76B900"
+                            font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="28"
+                            letter-spacing="6" class="nvidia-logo-text">NVIDIA</text>
+                    </svg>
+                </div>
+
+                <div class="finale-thankyou" data-speed="0.9">
+                    <p class="thankyou-text">Thank you for your attention.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/particles.js"></script>
+    <script src="js/three-scenes.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1418 @@
+/* ==================== DESIGN SYSTEM — Phase 3 ==================== */
+:root {
+    --black: #000000;
+    --dark: #0a0a0a;
+    --dark-gray: #111111;
+    --mid-gray: #1a1a1a;
+    --light-gray: #888888;
+    --nvidia-green: #76B900;
+    --nvidia-green-dim: rgba(118, 185, 0, 0.25);
+    --nvidia-green-glow: rgba(118, 185, 0, 0.5);
+    --nvidia-green-bright: #8fd400;
+    --white: #FFFFFF;
+    --white-dim: rgba(255, 255, 255, 0.55);
+    --white-medium: rgba(255, 255, 255, 0.75);
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --glow-sm: 0 0 10px var(--nvidia-green-dim);
+    --glow-md: 0 0 20px var(--nvidia-green-dim), 0 0 40px rgba(118, 185, 0, 0.1);
+    --glow-text: 0 0 8px rgba(118, 185, 0, 0.4);
+}
+
+/* ==================== RESET ==================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--black);
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--black);
+    color: var(--white);
+    min-width: 320px;
+    /* Safe mobile min-width */
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    /* Prevent long words from overflowing */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+}
+
+img,
+svg,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ==================== MOBILE WARNING ==================== */
+#mobile-warning {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--black);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mobile-warning-content {
+    padding: 2rem;
+}
+
+.mobile-warning-content svg {
+    margin-bottom: 1.5rem;
+}
+
+.mobile-warning-content h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--nvidia-green);
+    margin-bottom: 0.8rem;
+}
+
+.mobile-warning-content p {
+    color: var(--white-dim);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1439px) {
+    #mobile-warning {
+        display: flex;
+    }
+
+    body>*:not(#mobile-warning) {
+        display: none !important;
+    }
+}
+
+/* ==================== PARTICLES ==================== */
+#particles-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+/* ==================== SECTION NAV ==================== */
+#section-nav {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+}
+
+.nav-dot:hover {
+    background: rgba(118, 185, 0, 0.3);
+    border-color: var(--nvidia-green);
+    transform: scale(1.3);
+}
+
+.nav-dot.active {
+    background: var(--nvidia-green);
+    border-color: var(--nvidia-green);
+    box-shadow: 0 0 8px var(--nvidia-green-glow);
+    transform: scale(1.15);
+}
+
+.nav-label {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 0.55rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--nvidia-green);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.nav-dot:hover .nav-label {
+    opacity: 1;
+}
+
+/* ==================== LOADER ==================== */
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-logo {
+    margin-bottom: 2rem;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.loader-triangle {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw-triangle 2s ease forwards;
+}
+
+.loader-bar-track {
+    width: 200px;
+    height: 2px;
+    background: var(--mid-gray);
+    margin: 0 auto 1rem;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.loader-bar-fill {
+    height: 100%;
+    width: 0;
+    background: var(--nvidia-green);
+    border-radius: 1px;
+    box-shadow: var(--glow-sm);
+    transition: width 0.3s ease;
+}
+
+.loader-text {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    color: var(--nvidia-green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ==================== SECTIONS ==================== */
+.section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.section-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 6rem;
+    overflow: hidden;
+}
+
+.section-inner>* {
+    will-change: transform, opacity;
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+.accent {
+    color: var(--nvidia-green);
+}
+
+.glow-text {
+    text-shadow: var(--glow-text);
+}
+
+.muted {
+    color: var(--white-dim);
+    font-size: 0.9rem;
+}
+
+.section-number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--nvidia-green);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--white-dim);
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.section-body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--white-medium);
+    line-height: 1.75;
+    max-width: 540px;
+    margin-bottom: 1.5rem;
+}
+
+.section-header {
+    text-align: left;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.section-header.centered {
+    text-align: center;
+}
+
+.section-quote {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--white);
+    border-left: 2px solid var(--nvidia-green);
+    padding-left: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* ==================== LAYOUTS ==================== */
+
+/* Content + 3D side-by-side */
+.content-with-3d {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 4rem;
+}
+
+.content-with-3d.reverse {
+    flex-direction: row-reverse;
+}
+
+.content-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.visual-side {
+    flex: 1;
+    height: 100%;
+    position: relative;
+}
+
+.visual-side canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Split layout (Section 1) */
+.split-layout {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    align-items: stretch;
+    flex: 1;
+}
+
+.split-left,
+.split-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.split-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.divider-line {
+    width: 1px;
+    flex: 1;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.divider-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--white-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ==================== INTRO (Section 0) ==================== */
+.intro-content {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Big NVIDIA Brand Title */
+.brand-block {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.brand-name {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 10vw, 8rem);
+    font-weight: 700;
+    letter-spacing: clamp(4px, 2vw, 16px);
+    color: var(--nvidia-green);
+    text-shadow: 0 0 30px rgba(118, 185, 0, 0.3), 0 0 60px rgba(118, 185, 0, 0.1);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.brand-tagline {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--white-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+/* Subtitle */
+.intro-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.intro-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Agenda List */
+.agenda-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem;
+    max-width: 900px;
+}
+
+.agenda-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    text-align: left;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    background: rgba(17, 17, 17, 0.3);
+    min-width: 260px;
+    max-width: 320px;
+    flex: 1 1 260px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: border-color 0.3s ease;
+}
+
+.agenda-item:hover {
+    border-color: rgba(118, 185, 0, 0.25);
+}
+
+.agenda-num {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--nvidia-green);
+    border: 1px solid rgba(118, 185, 0, 0.3);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.agenda-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.agenda-text {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.agenda-desc {
+    font-size: 0.75rem;
+    color: var(--white-dim);
+    line-height: 1.4;
+}
+
+/* Scroll Hint */
+.scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.hint-text {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    color: var(--white-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hint-arrow {
+    font-size: 1.2rem;
+    color: var(--nvidia-green);
+    animation: bounce-arrow 2s ease-in-out infinite;
+}
+
+@keyframes bounce-arrow {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(8px);
+        opacity: 1;
+    }
+}
+
+/* ==================== PROGRESS BAR ==================== */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--nvidia-green);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.3s ease-out;
+    box-shadow: 0 0 10px var(--nvidia-green);
+}
+
+/* ==================== SECTION 2: CPU vs GPU ==================== */
+.cpu-gpu-comparison {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.comparison-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    flex: 1 1 300px;
+    max-width: 400px;
+    text-align: left;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.comparison-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cpu-card:hover {
+    border-color: rgba(68, 136, 204, 0.5);
+    /* Intel Blue-ish */
+    box-shadow: 0 0 20px rgba(68, 136, 204, 0.2);
+}
+
+.gpu-card:hover {
+    border-color: rgba(118, 185, 0, 0.5);
+    /* NVIDIA Green */
+    box-shadow: 0 0 20px rgba(118, 185, 0, 0.2);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.card-role {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--white-dim);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-specs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.card-specs li {
+    font-size: 0.9rem;
+    color: var(--white-medium);
+    margin-bottom: 0.8rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.card-specs li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--white-dim);
+}
+
+.card-use-case {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem;
+    border-radius: 8px;
+}
+
+.card-use-case span {
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Strategy Box */
+.strategy-box-container {
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.explanation-box {
+    background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(30, 30, 30, 0.9) 100%);
+    border-left: 4px solid var(--nvidia-green);
+    padding: 2rem;
+    border-radius: 0 12px 12px 0;
+}
+
+.box-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--nvidia-green);
+    margin-bottom: 1rem;
+}
+
+.box-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--white-medium);
+    margin-bottom: 1rem;
+}
+
+.box-text:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== SECTION CONCLUSION ==================== */
+.section-conclusion {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.conclusion-text {
+    font-size: 0.95rem;
+    color: var(--white-dim);
+    margin-bottom: 0.8rem;
+}
+
+.conclusion-highlight {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--nvidia-green);
+    text-shadow: var(--glow-text);
+}
+
+/* ==================== COMPUTE DEMO (Section 1) ==================== */
+.compute-demo {
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    background: rgba(17, 17, 17, 0.4);
+}
+
+.compute-label {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.compute-desc {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Serial pipeline */
+.serial-pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    min-height: 120px;
+}
+
+.serial-task {
+    height: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.serial-task .task-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.serial-task.active .task-fill {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.serial-task.done .task-fill {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Parallel grid */
+.parallel-grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 3px;
+    margin-bottom: 1.5rem;
+    min-height: 120px;
+}
+
+.par-node {
+    aspect-ratio: 1;
+    background: rgba(118, 185, 0, 0.08);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.par-node.active {
+    background: var(--nvidia-green);
+    box-shadow: 0 0 4px var(--nvidia-green-dim);
+}
+
+/* Compute meta chips */
+.compute-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.meta-chip {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    color: var(--white-dim);
+}
+
+.meta-chip.accent-chip {
+    border-color: var(--nvidia-green-dim);
+    color: var(--nvidia-green);
+}
+
+/* ==================== INFO BLOCK ==================== */
+.info-block {
+    margin-top: 1.5rem;
+    padding: 1.2rem 1.5rem;
+    border-left: 2px solid var(--nvidia-green);
+    background: rgba(118, 185, 0, 0.03);
+    border-radius: 0 8px 8px 0;
+}
+
+.info-label {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--nvidia-green);
+    margin-bottom: 0.5rem;
+}
+
+.info-text {
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    line-height: 1.65;
+}
+
+/* ==================== TIMELINE (Section 3) ==================== */
+.timeline-container {
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+    margin-top: 2rem;
+}
+
+.timeline-track {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    z-index: 0;
+}
+
+.timeline-line {
+    width: 100%;
+    height: 0;
+    background: linear-gradient(to bottom, var(--nvidia-green), rgba(118, 185, 0, 0.1));
+    transition: height 2s ease;
+}
+
+.timeline-items {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tl-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.tl-item:nth-child(odd) {
+    flex-direction: row;
+    padding-right: 52%;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.tl-item:nth-child(even) {
+    flex-direction: row-reverse;
+    padding-left: 52%;
+    justify-content: flex-end;
+    text-align: left;
+}
+
+.tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 1.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--nvidia-green);
+    box-shadow: var(--glow-sm);
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.tl-content {
+    max-width: 400px;
+}
+
+.tl-year {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--nvidia-green);
+    letter-spacing: 3px;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.tl-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.tl-desc {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    line-height: 1.6;
+}
+
+/* ==================== SPHERE (Section 4) ==================== */
+.section-sphere-bg {
+    background: radial-gradient(ellipse at 30% 50%, rgba(118, 185, 0, 0.02) 0%, var(--black) 70%);
+}
+
+.sphere-layout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 4rem;
+}
+
+.sphere-image-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+
+.sphere-photo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    filter: brightness(0.9) contrast(1.05);
+    position: relative;
+    z-index: 1;
+}
+
+.sphere-fallback {
+    width: 100%;
+    height: 100%;
+}
+
+.sphere-fallback canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.sphere-grid-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background:
+        linear-gradient(rgba(118, 185, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 185, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.sphere-grid-overlay.visible {
+    opacity: 1;
+}
+
+.image-credit {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.6rem;
+    color: var(--white-dim);
+    opacity: 0.5;
+    z-index: 3;
+}
+
+.sphere-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sphere-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.spec-item {
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    background: rgba(17, 17, 17, 0.3);
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.spec-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--nvidia-green);
+    margin-bottom: 0.2rem;
+}
+
+.spec-label {
+    font-size: 0.7rem;
+    color: var(--white-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ==================== USE CASES (Compact) ==================== */
+.use-cases-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.use-case-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    background: rgba(17, 17, 17, 0.3);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: border-color 0.3s ease;
+}
+
+.use-case-row:hover {
+    border-color: rgba(118, 185, 0, 0.2);
+}
+
+.use-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.use-case-row h4 {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    color: var(--white);
+}
+
+.use-case-row p {
+    font-size: 0.8rem;
+    color: var(--white-dim);
+    line-height: 1.5;
+}
+
+/* ==================== JENSEN (Section 8) ==================== */
+.jensen-layout {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+    width: 100%;
+    height: 100%;
+}
+
+.jensen-visual {
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.jensen-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.jacket-outline {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 3s ease;
+}
+
+.jacket-outline.drawn {
+    stroke-dashoffset: 0;
+}
+
+.strategy-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.strategy-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.strategy-marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nvidia-green);
+    box-shadow: var(--glow-sm);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.strategy-item h4 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.2rem;
+}
+
+.strategy-item p {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    line-height: 1.55;
+}
+
+/* ==================== FINALE (Section 9) ==================== */
+.finale-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+}
+
+.finale-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.finale-words {
+    display: flex;
+    gap: 2.5rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.finale-word {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 5rem);
+    font-weight: 700;
+    color: var(--white);
+    opacity: 0;
+    transform: translateY(40px) scale(0.85);
+}
+
+.finale-close {
+    position: relative;
+    text-align: center;
+}
+
+.finale-glow {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(118, 185, 0, 0.1) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: subtle-pulse 4s ease-in-out infinite;
+}
+
+.finale-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+    font-weight: 600;
+    color: var(--white);
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.finale-logo {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.finale-thankyou {
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.thankyou-text {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes draw-triangle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px rgba(118, 185, 0, 0.3));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 15px rgba(118, 185, 0, 0.5));
+    }
+}
+
+@keyframes subtle-pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+@keyframes blink-cursor {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1200px) {
+    .section-inner {
+        padding: 4rem 3rem;
+    }
+
+    .brand-name {
+        font-size: clamp(3rem, 8vw, 6rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .section-inner {
+        padding: 3rem 1.5rem;
+    }
+
+    .brand-name {
+        font-size: clamp(2.5rem, 12vw, 4.5rem);
+        letter-spacing: 4px;
+    }
+
+    .cpu-gpu-comparison {
+        gap: 1.5rem;
+    }
+
+    .comparison-card {
+        padding: 1.5rem;
+        flex: 1 1 100%;
+        /* Full width on mobile */
+        max-width: 100%;
+        min-width: 0;
+        /* Allow shrinking */
+    }
+
+    .content-with-3d,
+    .content-with-3d.reverse {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .content-with-3d.reverse {
+        flex-direction: column-reverse;
+    }
+
+    .visual-side,
+    .content-side {
+        width: 100%;
+        flex: auto;
+    }
+
+    .visual-side {
+        height: 40vh;
+        min-height: 300px;
+    }
+
+    .split-layout {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .split-divider {
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        padding: 1rem 0;
+    }
+
+    .divider-line {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+
+    #section-nav {
+        display: none;
+        /* Hide dots on mobile if they overlap content */
+    }
+
+    /* Fix for short screens (Laptop/standard) */
+    @media (max-height: 900px) {
+        .section-inner {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cpu-gpu-comparison {
+            margin-bottom: 1rem;
+        }
+
+        .comparison-card {
+            padding: 1rem;
+        }
+
+        .card-specs li {
+            margin-bottom: 0.4rem;
+        }
+    }
+
+    .sphere-layout {
+        flex-direction: column;
+    }
+
+    .sphere-image-container {
+        height: 40vh;
+        width: 100%;
+    }
+
+    .jensen-layout {
+        flex-direction: column-reverse;
+    }
+}
